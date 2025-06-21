@@ -86,7 +86,39 @@ springdoc:
     path: /swagger-ui.html
 
 ```
-⚠️ Em produção, não exponha o segredo JWT diretamente no yml. Use variáveis de ambiente seguras.
+> ⚠️ Em produção, não exponha o segredo JWT diretamente no yml. Use variáveis de ambiente seguras.
+
+## 💾 Como rodar o projeto
+
+### 1. Clonar o repositório
+
+```bash
+git clone https://github.com/anacristinags/jwt
+```
+
+### 2. Configurar o banco de dados
+
+Este projeto utiliza o banco de dados **H2**, que é um banco relacional em memória, ideal para testes e desenvolvimento local.
+
+O banco H2 já está configurado no arquivo `src/main/resources/application.yml`
+
+> ⚠️ Observações:
+> O banco é volátil: seus dados são apagados quando a aplicação é finalizada.
+
+#### 🧪 Acessando o Console Web do H2
+1. Inicie a aplicação 
+2. Acesse o console H2 no navegador:
+`http://localhost:8080/h2-console`
+3. Preencha os dados da conexão com:
+   
+| Campo         | Valor                |
+| ------------- | -------------------- |
+| **JDBC URL**  | `jdbc:h2:mem:testdb` |
+| **User Name** | `sa`                 |
+| **Password**  | *(deixe em branco)*  |
+
+
+4. Clique em Connect
 
 
 ## 🧪 Testes Automatizados (JUnit)
@@ -113,3 +145,47 @@ A API possui uma suíte robusta de testes de integração com **JUnit 5** e **Mo
 
 Esses testes garantem que a segurança e o fluxo de autenticação da API funcionam corretamente, desde o login até a autorização baseada em roles
 
+##  📈 Testes de Carga com Apache JMeter
+Para avaliar o desempenho da API sob múltiplas requisições simultâneas.
+
+Etapas:
+Instale o Apache JMeter
+
+Abra o arquivo `Arvore de Resultados.jmx` (salvo na pasta `testes_JMeter`)
+
+Com a aplicação rodando, clique em Start
+
+Analise os resultados via Summary Report ou View Results Tree
+![Image](https://github.com/user-attachments/assets/26fc324f-4986-46be-89ca-2113bf982158)
+
+![Image](https://github.com/user-attachments/assets/e98d6c55-1bca-4a86-9119-bc00ee47076b)
+
+## 📖 Documentação Swagger
+O projeto possui documentação automática com o Swagger UI, gerada via springdoc-openapi.
+#### Acesse em: `http://localhost:8080/swagger-ui.html`
+
+![Image](https://github.com/user-attachments/assets/b0880632-3d6e-4fff-808f-d438fabe0aa4)
+
+![Image](https://github.com/user-attachments/assets/68b62553-ca4e-45cf-a70b-be62f463e4dd)
+
+### 🔐 Como autenticar no Swagger com JWT
+
+Para acessar endpoints protegidos via Swagger, é necessário informar o token JWT no cabeçalho das requisições:
+
+1. Vá até o endpoint `POST /auth/login`
+2. Clique em **"Try it out"**
+3. Informe os parâmetros:
+   - `username`: ex: `admin`
+   - `password`: ex: `123456`
+4. Clique em **Execute** e copie o token retornado na resposta (sem aspas)
+![Image](https://github.com/user-attachments/assets/1b27b934-5e61-4e6d-9dca-839d172e5e20)
+5. Volte ao topo da Swagger UI e clique em **Authorize**
+6. No campo que aparece, preencha com o token gerado.
+7. Clique em **Authorize** e depois em **Close**
+
+Pronto! Agora você poderá testar todos os endpoints protegidos diretamente pela interface Swagger.
+![Image](https://github.com/user-attachments/assets/61c2efa6-f9b6-4176-bb90-c21e838afe35)
+
+![Image](https://github.com/user-attachments/assets/edd0c6a2-0882-4762-9fa3-6258a9468a4a)
+
+![Image](https://github.com/user-attachments/assets/1df16cee-7c74-49bb-b9ef-230c8c76ee42)
