@@ -1,26 +1,69 @@
-# 🔐 API de Autenticação e Autorização com JWT - Spring Boot 
-Este repositório apresenta uma API construída com **Spring Boot**, focada em **autenticação** e **autorização** utilizando **JWT (JSON Web Tokens)**. 
-O projeto inclui proteção de endpoints, geração e validação interna de tokens, além de documentação automática e testes de carga.
+# 🔐 API de Autenticação e Autorização com JWT - Spring Boot
+
+Este repositório apresenta uma API desenvolvida com **Spring Boot**, focada em **autenticação** e **autorização** utilizando **JWT (JSON Web Tokens)**.  
+O projeto inclui proteção de endpoints, geração e validação interna de tokens, documentação automática via Swagger e testes de carga com JMeter.
 
 ---
+
+## 🗂 Índice
+
+1. [Sobre o Projeto](#📖-sobre-o-projeto)  
+2. [Tecnologias & Dependências](#📦-tecnologias-e-dependências)  
+3. [Arquitetura](#🏗️-arquitetura)  
+4. [Configuração](#⚙️-configuração)  
+5. [Como Rodar](#💾-como-rodar)  
+6. [Autenticação & Endpoints](#🔐-autenticação--endpoints)  
+7. [Testes Automatizados](#🧪-testes-automatizados-junit)  
+8. [Testes de Carga](#📈-testes-de-carga-com-apache-jmeter)  
+9. [Documentação Swagger](#📖-documentação-swagger)  
+10. [Produzido por](#👩‍💻-produzido-por)
+
+---
+
+## 📖 Sobre o Projeto
+
+Este projeto é um exemplo prático de aplicação **segura com JWT** no ecossistema Spring Boot 3.x. A API emite tokens assinados com chave secreta, valida internamente e restringe o acesso a endpoints com base em **roles** (`USER`, `ADMIN`). O projeto inclui:
+
+- API para autenticação (`/auth/login`) e validação de token (`/auth/validate`)  
+- Controller com rotas protegidas como exemplo (`/api/protected`)  
+- Banco **H2** para persistência em memória  
+- Testes automatizados com **JUnit 5** e **Mockito**  
+- Testes de carga com **Apache JMeter**
+
+---
+
 ## 📦 Tecnologias e Dependências
 
-Este projeto utiliza as seguintes bibliotecas e frameworks:
-
-- **Spring Boot Starter Web** – Criação de APIs RESTful
-- **Spring Boot Starter Security** – Configuração de segurança
-- **Spring Boot Starter OAuth2 Resource Server** – Validação de JWTs
-- **Spring Boot Starter Data JPA** – Persistência de dados
-- **H2 Database** – Banco de dados em memória
-- **Java JWT (Auth0)** – Criação e verificação de tokens
-- **Springdoc OpenAPI** – Documentação Swagger
-- **Spring Boot DevTools** – Hot reload para desenvolvimento
-- **Lombok** – Reduz o código repetitivo (getters, setters, etc.).
-- **JUnit 5 + Mockito** – Testes unitários e de integração
-- **Apache JMeter** – Testes de carga
+| Grupo        | Biblioteca                                   | Descrição                     |
+| ------------ | -------------------------------------------- | ----------------------------- |
+| Core         | `spring-boot-starter-web`                    | Criação de API REST           |
+| Segurança    | `spring-boot-starter-security`               | Autenticação e autorização    |
+|              | `spring-boot-starter-oauth2-resource-server` | Validação de JWT              |
+| Persistência | `spring-boot-starter-data-jpa`               | JPA/Hibernate                 |
+|              | `com.h2database:h2`                          | Banco em memória              |
+| JWT          | `com.auth0:java-jwt`                         | Geração e validação de token  |
+| Documentação | `springdoc-openapi-starter-webmvc-ui`        | Swagger UI                    |
+| Dev Tools    | `spring-boot-devtools`                       | Hot reload                    |
+| Utilitários  | `lombok`                                     | Redução de código boilerplate |
+| Testes       | `spring-boot-starter-test`                   | JUnit 5 e Mockito             |
+| Carga        | **Apache JMeter**                            | Simulação de requisições      |
 
 ---
 
+## 🏗️ Arquitetura
+
+```text
+┌───────────────┐ login ┌──────────────┐ validate ┌───────────────┐
+│ AuthController ├──────► AuthService ├───────────► JwtService    │
+└───────────────┘        └────────────┘             │
+        ▲                                    verify ▼
+     protected                             save/fetch
+┌───────────────┐  JPA  ┌──────────────┐       ┌──────────────┐
+│ UserRepository ├─────►│    H2 DB     │       │ TestProtected│
+└───────────────┘       └──────────────┘       └──────────────┘
+```
+
+---
 ## 🧱 Estrutura Principal do Projeto
 ```yaml
 src
@@ -120,6 +163,33 @@ O banco H2 já está configurado no arquivo `src/main/resources/application.yml`
 
 4. Clique em Connect
 
+## 🔐 Autenticação & Endpoints
+Fluxo
+POST /auth/login → envia username + password ⇒ recebe JWT
+
+Inclua o token no header Authorization: Bearer <token>
+
+Acesse recursos protegidos, por exemplo: GET /api/protected/user
+
+Usuários de Teste
+| Login   | Senha      | Role    |
+| ------- | ---------- | ------- |
+| `user`  | `password` | `USER`  |
+| `admin` | `123456`   | `ADMIN` |
+
+
+Endpoints
+| Método | Rota             | Descrição    |
+| ------ | ---------------- | ------------ |
+| POST   | `/auth/login`    | Gera token   |
+| POST   | `/auth/validate` | Valida token |
+
+| Método | Rota                   | Acesso          |
+| ------ | ---------------------- | --------------- |
+| GET    | `/api/protected/user`  | `USER`, `ADMIN` |
+| GET    | `/api/protected/admin` | `ADMIN`         |
+
+
 
 ## 🧪 Testes Automatizados (JUnit)
 
@@ -189,3 +259,6 @@ Pronto! Agora você poderá testar todos os endpoints protegidos diretamente pel
 ![Image](https://github.com/user-attachments/assets/edd0c6a2-0882-4762-9fa3-6258a9468a4a)
 
 ![Image](https://github.com/user-attachments/assets/1df16cee-7c74-49bb-b9ef-230c8c76ee42)
+
+## 👩‍💻 Produzido por
+Este projeto foi desenvolvido por Ana Cristina, para a matéria de Arquitetura de Aplicações Web
