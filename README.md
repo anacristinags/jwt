@@ -7,16 +7,16 @@ O projeto inclui proteção de endpoints, geração e validação interna de tok
 
 ## 🗂 Índice
 
-1. [Sobre o Projeto](#📖-sobre-o-projeto)  
-2. [Tecnologias & Dependências](#📦-tecnologias-e-dependências)  
-3. [Arquitetura](#🏗️-arquitetura)  
-4. [Configuração](#⚙️-configuração)  
-5. [Como Rodar](#💾-como-rodar)  
-6. [Autenticação & Endpoints](#🔐-autenticação--endpoints)  
-7. [Testes Automatizados](#🧪-testes-automatizados-junit)  
-8. [Testes de Carga](#📈-testes-de-carga-com-apache-jmeter)  
-9. [Documentação Swagger](#📖-documentação-swagger)  
-10. [Produzido por](#👩‍💻-produzido-por)
+1. [Sobre o Projeto](#sobre-o-projeto)  
+2. [Tecnologias & Dependências](#tecnologias--dependências)  
+3. [Arquitetura](#arquitetura)  
+4. [Configuração](#configuração-do-ambiente)  
+5. [Como Rodar](#como-rodar-o-projeto)  
+6. [Autenticação & Endpoints](#autenticação--endpoints)  
+7. [Testes Automatizados](#testes-automatizados-junit)  
+8. [Testes de Carga](#testes-de-carga-com-apache-jmeter)  
+9. [Documentação Swagger](#documentação-swagger)  
+10. [Produzido por](#produzido-por)
 
 ---
 
